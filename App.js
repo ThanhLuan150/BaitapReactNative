@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Play from './Screens/Play';
+import Setting from './Screens/Setting';
 
 
 export default function App() {
@@ -13,6 +14,11 @@ export default function App() {
         <Stack.Screen
           name="SlashScreen"
           component={Play}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name="Setting"
+          component={Setting}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
