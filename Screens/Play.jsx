@@ -2,65 +2,61 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 
 const Play = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [deck, setDeck] = useState(['あ','a', 'い', 'う', 'え', 'お']); // Initialize the deck
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [deck, setDeck] = useState(['あ', 'い', 'う', 'え', 'お']); // Initialize the deck
 
-  const handlePrevious = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
-  };
+    const handlePrevious = () => {
+        if (currentIndex > 0) {
+        setCurrentIndex(currentIndex - 1);
+        }
+    };
 
-  const handleNext = () => {
-    if (currentIndex < deck.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  };
+    const handleNext = () => {
+        if (currentIndex < deck.length - 1) {
+        setCurrentIndex(currentIndex + 1);
+        }
+    };
 
-  const handleRemoveFromDeck = () => {
-    const updatedDeck = [...deck];
-    updatedDeck.splice(currentIndex, 1);
-    setDeck(updatedDeck); // Update the deck state
-  };
+    const handleRemoveFromDeck = () => {
+        const updatedDeck = [...deck];// tạo ra bản sao  bằng cách sử dụng toán tử spread (...). ta hông thay đổi trực tiếp mảng deck, mà thay vào đó làm việc trên một bản sao của nó.
+        updatedDeck.splice(currentIndex, 1);// Loại bỏ phần tử tại vị trí hiện tại khỏi bộ bài
+        setDeck(updatedDeck); // Update the deck state
+    };
 
-  const handleReset = () => {
-    setCurrentIndex(0);
-  };
-
-  return (
-    <View>
-      <View style={styles.viewplay}>
-        <Text style={styles.textplay}>Play ({deck.length} Cards)</Text>
-      </View>
-      <View style={styles.viewbackground}>
-        <View style={styles.viewsquare}>
-          <Text style={styles.texttext}>{deck[currentIndex]}</Text>
-        </View>
-        <View style={styles.viewbutton}>
-          <TouchableOpacity style={styles.button} onPress={handlePrevious}>
-            <Text style={styles.buttonText}>Previous</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={handleNext}>
-            <Text style={styles.buttonText}>Next</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{ paddingBottom: 10 }}>
-          <TouchableOpacity style={styles.button1} onPress={handleRemoveFromDeck}>
-            <Text style={styles.buttonText1}>Remove From Deck</Text>
-          </TouchableOpacity>
-        </View>
+    const handleReset = () => {
+        setCurrentIndex(0);
+    };
+    return(
         <View>
-          <TouchableOpacity style={styles.button1}>
-            <Text style={styles.buttonText1} onPress={handleReset}>Reset Deck</Text>
-          </TouchableOpacity>
+            <View style={styles.viewplay}>
+                 <Text style={styles.textplay}>Play (46 Cards)</Text>
+            </View>
+            <View style={styles.viewbackground}>
+                <View style={styles.viewsquare}>
+                    <Text style={styles.texttext}>{items[currentIndex]}</Text>
+                </View>
+                <View style={styles.viewbutton}>
+                    <TouchableOpacity style={styles.button} onPress={handlePrevious}>
+                        <Text style={styles.buttonText}>Previous</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={handleNext}>
+                        <Text style={styles.buttonText}>Next</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{ paddingBottom: 10 }}>
+                    <TouchableOpacity style={styles.button1} onPress={handleRemoveFromDeck} >
+                        <Text style={styles.buttonText1}>Remove From Deck</Text>
+                    </TouchableOpacity>
+                </View>
+                <View>
+                    <TouchableOpacity style={styles.button1}>
+                        <Text style={styles.buttonText1} onPress={handleReset}>Reset Deck</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
-      </View>
-    </View>
-  );
-};
-
-
-
+    )
+}
 const styles = StyleSheet.create({
     viewplay:{
         backgroundColor:"#fff",
