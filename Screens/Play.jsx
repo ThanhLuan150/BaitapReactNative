@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback ,Dimensions  } from 'react-native';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 const Play = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [deck, setDeck] = useState(['あ','a', 'い', 'う', 'え', 'お']); // Initialize the deck
+    const [deck, setDeck] = useState(['Hello','Xin chào','lll', 'apple', 'táo', 'banana', 'chuối']); // Initialize the deck
     const navigation = useNavigation()
     const handleSetting = () =>{
         navigation.navigate('Setting');
@@ -25,13 +25,20 @@ const Play = () => {
         updatedDeck.splice(currentIndex, 1);// Loại bỏ phần tử tại vị trí hiện tại khỏi mảng hiện tại 
         setDeck(updatedDeck); // Update the deck state
     };
-    const handleTouchNext = () => {
-        handleNext(); // Gọi hàm handleNext khi chạm vào màn hình
-    };
-    const handleTouchPrevious =()=>{
-        handlePrevious();
-    }
+    // Xác định vị trí chạm và xử lý dựa trên vị trí đó
+    const handleTouch = (event) => {
+        const { locationX } = event.nativeEvent; // Lấy vị trí ngang của điểm chạm
+        const screenWidth = Dimensions.get('window').width; // Lấy chiều rộng của màn hình
 
+        // Kiểm tra xem điểm chạm nằm ở bên trái hay bên phải màn hình
+        if (locationX < screenWidth / 2) {
+        // Chạm vào bên trái màn hình
+        handlePrevious(); // Gọi hàm xử lý khi chạm vào bên trái
+        } else {
+        // Chạm vào bên phải màn hình
+        handleNext(); // Gọi hàm xử lý khi chạm vào bên phải
+        }
+    };
     const handleReset = () => {
         setCurrentIndex(0);
     };
@@ -41,9 +48,11 @@ const Play = () => {
                  <Text style={styles.textplay}>Play (46 Cards)</Text>
             </View>
             <View style={styles.viewbackground}>
-                <TouchableOpacity style={styles.viewsquare} onPress={handleTouchNext}>
-                    <Text style={styles.texttext}>{deck[currentIndex]}</Text>
-                </TouchableOpacity>
+                <TouchableWithoutFeedback onPress={handleTouch}>
+                    <View style={styles.viewsquare}>
+                        <Text style={styles.texttext}>{deck[currentIndex]}</Text>
+                    </View>
+                </TouchableWithoutFeedback>
                 <View style={styles.viewbutton}>
                     <TouchableOpacity style={styles.button} onPress={handlePrevious}>
                         <Text style={styles.buttonText}>Previous</Text>
