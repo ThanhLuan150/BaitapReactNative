@@ -1,13 +1,16 @@
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback ,Dimensions  } from 'react-native';
 import { useState } from 'react';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 const Play = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [deck, setDeck] = useState(['Hello','Xin chào','lll', 'apple', 'táo', 'banana', 'chuối']); // Initialize the deck
     const navigation = useNavigation()
+
     const handleSetting = () =>{
         navigation.navigate('Setting');
     }
+
     const handlePrevious = () => {
         if (currentIndex > 0) {
         setCurrentIndex(currentIndex - 1);
@@ -25,6 +28,7 @@ const Play = () => {
         updatedDeck.splice(currentIndex, 1);// Loại bỏ phần tử tại vị trí hiện tại khỏi mảng hiện tại 
         setDeck(updatedDeck); // Update the deck state
     };
+
     // Xác định vị trí chạm và xử lý dựa trên vị trí đó
     const handleTouch = (event) => {
         const { locationX } = event.nativeEvent; // Lấy vị trí ngang của điểm chạm
@@ -39,11 +43,13 @@ const Play = () => {
         handleNext(); // Gọi hàm xử lý khi chạm vào bên phải
         }
     };
+
     const handleReset = () => {
         setCurrentIndex(0);
     };
+    
     return(
-        <View>
+        <View style={{ paddingBottom:20 }}>
             <View style={styles.viewplay}>
                  <Text style={styles.textplay}>Play (46 Cards)</Text>
             </View>
@@ -73,8 +79,14 @@ const Play = () => {
                 </View>
             </View>
             <View style={styles.viewnavigator}>
-                <Text>Play</Text>
-                <Text onPress={handleSetting}>Setting</Text>
+                <View style={{ flexDirection:'column',justifyContent:'center',alignContent:'center' }} >
+                    <Icon name="home" size={30} color="#F08080" />
+                    <Text style={styles.textplay}>Play</Text>
+                </View>
+                <View style={{ flexDirection:'column',justifyContent:'center',alignContent:'center' }} >
+                    <Icon name='settings' size={30} color={'gray'} style={{ position:'relative',left:5 }} onPress={handleSetting}/>
+                    <Text style={styles.textsetting} >Setting</Text>
+                </View>
             </View>
         </View>
     )
@@ -91,10 +103,10 @@ const styles = StyleSheet.create({
     },
     viewbackground:{
         backgroundColor:'#F8F8FF',
-        paddingTop:30,
+        paddingTop:20,
         paddingLeft:20,
         paddingRight:20,
-        paddingBottom:30
+        paddingBottom:20
     },
     viewsquare: {
         backgroundColor: '#F08080', 
@@ -134,8 +146,8 @@ const styles = StyleSheet.create({
         borderColor:'#FFF',
         backgroundColor:'#fff',
         borderRadius:5,
-        paddingTop:15,
-        paddingBottom:15
+        paddingTop:10,
+        paddingBottom:10
       },
       buttonText1:{
         textAlign:'center',
@@ -146,7 +158,18 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         flexDirection:'row',
         justifyContent:'space-between',
-       
-      }
+        paddingLeft:100,
+        paddingBottom:20,
+        paddingRight:100,
+        height:100,
+        borderTopWidth:1,
+        borderTopColor:'#F8F8FF',
+   
+      },
+      textplay:{
+        marginLeft:2,
+        color:'#F08080'
+      },
+      
 })
 export default Play;
