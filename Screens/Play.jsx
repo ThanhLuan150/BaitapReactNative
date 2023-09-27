@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 const Play = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [deck, setDeck] = useState(['Hello','Xin chào','lll', 'apple', 'táo', 'banana', 'chuối']); // Initialize the deck
+    const [deck, setDeck] = useState(['Hello','Xin chào','apple', 'táo', 'banana', 'chuối']); // Initialize the deck
     const navigation = useNavigation()
 
     const handleSetting = () =>{
@@ -51,7 +51,7 @@ const Play = () => {
     return(
         <View style={{ paddingBottom:20 }}>
             <View style={styles.viewplay}>
-                 <Text style={styles.textplay}>Play (46 Cards)</Text>
+                 <Text style={{ textAlign:'center' ,fontSize:21}}>Play (46 Cards)</Text>
             </View>
             <View style={styles.viewbackground}>
                 <TouchableWithoutFeedback onPress={handleTouch}>
@@ -96,10 +96,6 @@ const styles = StyleSheet.create({
         backgroundColor:"#fff",
         paddingTop:70,
         paddingBottom:10
-    },
-    textplay:{
-        textAlign:"center",
-        fontSize:21
     },
     viewbackground:{
         backgroundColor:'#F8F8FF',
