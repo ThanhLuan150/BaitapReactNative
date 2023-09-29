@@ -10,7 +10,7 @@ const Play = () => {
         navigation.navigate('Setting');
         }
     const Data = [ 
-        { en: "Hello", vi: "xin chào0" },
+        { en: "Hello", vi: "xin chào" },
         { en: "Apple", vi: "Táo" },
         { en: "Table", vi: "Bàn" }
     ]
