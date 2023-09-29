@@ -3,78 +3,92 @@ import { useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 const Play = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [deck, setDeck] = useState(['Hello','Xin chào','apple', 'táo', 'banana', 'chuối']); // Initialize the deck
-    const navigation = useNavigation()
-
-    const handleSetting = () =>{
+     const [Language, setLanguage] = useState('en');
+     const [Index, setIndex] = useState(0);
+     const navigation = useNavigation()
+     const handleSetting = () =>{
         navigation.navigate('Setting');
-    }
-
-    const handlePrevious = () => {
-        if (currentIndex > 0) {
-        setCurrentIndex(currentIndex - 1);
         }
-    };
+    const Data = [ 
+        { en: "Hello", vi: "xin chào" },
+        { en: "Apple", vi: "Táo" },
+        { en: "Table", vi: "Bàn" }
+    ]
+                
+        const [languageDate, setLanguageDate] = useState(Data);
+        const [currentData, setCurrentData] = useState(languageDate[0]);
 
-    const handleNext = () => {
-        if (currentIndex < deck.length - 1) {
-        setCurrentIndex(currentIndex + 1);
-        }
-    };
-
-    const handleRemoveFromDeck = () => {
-        const updatedDeck = [...deck];// tạo ra bản sao  bằng cách sử dụng toán tử spread (...). ta hông thay đổi trực tiếp mảng deck, mà thay vào đó làm việc trên một bản sao của nó.
-        updatedDeck.splice(currentIndex, 1);// Loại bỏ phần tử tại vị trí hiện tại khỏi mảng hiện tại 
-        setDeck(updatedDeck); // Update the deck state
-    };
-
-    // Xác định vị trí chạm và xử lý dựa trên vị trí đó
-    const handleTouch = (event) => {
-        const { locationX } = event.nativeEvent; // Lấy vị trí ngang của điểm chạm
-        const screenWidth = Dimensions.get('window').width; // Lấy chiều rộng của màn hình
-
-        // Kiểm tra xem điểm chạm nằm ở bên trái hay bên phải màn hình
-        if (locationX < screenWidth / 2) {
-        // Chạm vào bên trái màn hình
-        handlePrevious(); // Gọi hàm xử lý khi chạm vào bên trái
-        } else {
-        // Chạm vào bên phải màn hình
-        handleNext(); // Gọi hàm xử lý khi chạm vào bên phải
-        }
-    };
-
-    const handleReset = () => {
-        setCurrentIndex(0);
-    };
-    
+        const toggleLanguage = () => {
+            if (Language === 'en') {
+                setLanguage('vi');
+            } else {
+               setLanguage('en');
+         }
+            };
+            
+            
+        const nextItem = () => {
+            setIndex((Index) => (Index + 1) % languageDate.length);
+            setCurrentData(languageDate[Index]);
+            };
+            
+            
+        const previousItem = () => {
+            setIndex((Index)=> (Index -1 + languageDate.length) % languageDate.length);
+            setCurrentData(languageDate[Index]);
+        };
+            
+        const handleRemove = () => {
+        const newData = [...languageDate];
+            if (newData.length > 0) {
+                newData.splice(Index, 1);
+                setLanguageDate(newData);
+            
+            if (newData.length === 0) {
+                setCurrentData({});
+                setIndex(0);
+            } else if (Index >= newData.length) {
+                setIndex(newData.length - 1);
+                setCurrentData(newData[newData.length - 1]);
+            } else {
+                setCurrentData(newData[Index]);
+                }
+            }
+                };
+                
+            const handReset = () => {
+            setLanguageDate(Data);
+            setIndex(0); // Đặt lại chỉ mục về 0
+            setCurrentData(Data[0]); // Đặt lại currentData thành phần đầu tiên của Data
+            };
+                
     return(
         <View style={{ paddingBottom:20 }}>
             <View style={styles.viewplay}>
-                 <Text style={{ textAlign:'center' ,fontSize:21}}>Play (46 Cards)</Text>
+                 <Text style={{ textAlign:'center' ,fontSize:21}}>Play (3 Cards)</Text>
             </View>
             <View style={styles.viewbackground}>
-                <TouchableWithoutFeedback onPress={handleTouch}>
+                <TouchableWithoutFeedback onPress={toggleLanguage}>
                     <View style={styles.viewsquare}>
-                        <Text style={styles.texttext}>{deck[currentIndex]}</Text>
+                        <Text style={styles.texttext}>{currentData[Language]}</Text>
                     </View>
                 </TouchableWithoutFeedback>
                 <View style={styles.viewbutton}>
-                    <TouchableOpacity style={styles.button} onPress={handlePrevious}>
+                    <TouchableOpacity style={styles.button} onPress={previousItem}>
                         <Text style={styles.buttonText}>Previous</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={handleNext}>
+                    <TouchableOpacity style={styles.button} onPress={nextItem}>
                         <Text style={styles.buttonText}>Next</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{ paddingBottom: 10 }}>
-                    <TouchableOpacity style={styles.button1} onPress={handleRemoveFromDeck} >
+                    <TouchableOpacity style={styles.button1} onPress={handleRemove} >
                         <Text style={styles.buttonText1}>Remove From Deck</Text>
                     </TouchableOpacity>
                 </View>
                 <View>
                     <TouchableOpacity style={styles.button1}>
-                        <Text style={styles.buttonText1} onPress={handleReset}>Reset Deck</Text>
+                        <Text style={styles.buttonText1}  onPress={handReset}>Reset Deck</Text>
                     </TouchableOpacity>
                 </View>
             </View>
